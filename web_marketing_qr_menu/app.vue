@@ -701,12 +701,13 @@ const url = runtimeConfig.public.url;
 // Function to handle form submission
 async function submitForm() {
   try {
-    const response = await axios.post(`${url}/send-email`, {
+    // Make a request to the serverless function endpoint
+    const response = await axios.post("/.netlify/functions/send-mail", {
       email: email.value,
       phone: phone.value,
       message: message.value,
     });
-    console.log(response.data);
+    console.log("REsponse", response.data);
 
     // Clear the form fields after successful submission
     email.value = "";

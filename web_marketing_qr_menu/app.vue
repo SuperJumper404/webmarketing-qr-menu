@@ -390,7 +390,7 @@
             Programmer un entretien ? Une demonstration ? <br />Besoin
             d'informations supplementaires ? Néhistez pas !
           </p>
-          <form action="#" class="space-y-8">
+          <form @submit.prevent="submitForm" class="space-y-8">
             <div>
               <label
                 for="email"
@@ -399,7 +399,7 @@
               >
               <input
                 type="email"
-                id="email"
+                v-model="email"
                 class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                 placeholder="votre@email.com"
                 required
@@ -407,13 +407,13 @@
             </div>
             <div>
               <label
-                for="subject"
+                for="phone"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >Téléphone
-              </label>
+                >Téléphone</label
+              >
               <input
                 type="text"
-                id="subject"
+                v-model="phone"
                 class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                 placeholder="+33 XX XX XX XX"
                 required
@@ -426,12 +426,13 @@
                 >Message</label
               >
               <textarea
+                v-model="message"
                 id="message"
                 rows="6"
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="Comment pouvons-nous vous aidez ?"
               ></textarea>
             </div>
+            <!-- Your other form fields (if any) -->
             <button
               type="submit"
               class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -688,8 +689,34 @@
 <script setup>
 import { ref } from "vue";
 import AOS from "aos";
+import axios from "axios";
 import "aos/dist/aos.css"; // You can also use <link> for styles
-// ..
+const runtimeConfig = useRuntimeConfig();
+
+// Define refs for form fields
+const email = ref("");
+const phone = ref("");
+const message = ref("");
+const url = runtimeConfig.public.url;
+// Function to handle form submission
+async function submitForm() {
+  try {
+    const response = await axios.post(`${url}/send-email`, {
+      email: email.value,
+      phone: phone.value,
+      message: message.value,
+    });
+    console.log(response.data);
+
+    // Clear the form fields after successful submission
+    email.value = "";
+    phone.value = "";
+    message.value = "";
+  } catch (error) {
+    console.error("Error submitting the form:", error);
+  }
+}
+
 function playAnimation(question) {
   const lottiePlayer = document.getElementById(`lottie-${question.id}`);
   if (lottiePlayer) {

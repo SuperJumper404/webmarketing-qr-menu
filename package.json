@@ -1,0 +1,23 @@
+{
+  "name": "marketingwebsite_qrmenu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \" cd ./backend_marketing_qr_menu && npm run start\" \"cd ./web_marketing_qr_menu && npm run dev\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SuperJumper404/webmarketing-qr-menu.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SuperJumper404/webmarketing-qr-menu/issues"
+  },
+  "homepage": "https://github.com/SuperJumper404/webmarketing-qr-menu#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
